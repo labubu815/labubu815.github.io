@@ -1,0 +1,871 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#d4e8f7">
+<title>💕 包浆倪爱心小浣棕熊</title>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:"ZCOOL KuaiLe","Comic Sans MS",cursive,sans-serif;background:linear-gradient(170deg,#d4e8f7 0%,#b8d9f0 40%,#e8f0fe 100%);background-attachment:fixed;color:#4a5568;-webkit-tap-highlight-color:transparent;user-select:none;position:relative;transition:background 1s ease}
+body.night{background:linear-gradient(170deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)!important}
+body.night .container{color:#c0c8d8}body.night .header .pet-name{color:#8fa8c8}
+body.night .header .birthday-row span,body.night .header .level-badge{background:rgba(255,255,255,.1);color:#8fa8c8}
+body.night .pet-state-label,body.night .message-area{background:rgba(255,255,255,.1);color:#c0c8d8;border-color:rgba(255,255,255,.08)}
+body.night .stat-label{color:#6d8aaa}body.night .stat-value{color:#7a9abb}
+body.night .bar-track{background:rgba(255,255,255,.06)}
+body.night .couple-toggle,body.night .couple-inner{background:rgba(255,255,255,.08);color:#8fa8c8}
+body.night .couple-inner textarea{background:rgba(255,255,255,.08);color:#c0c8d8}
+body.night .msg-item,body.night .toast{background:rgba(255,255,255,.06)}
+body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(circle at 20% 30%,rgba(255,182,193,.25) 1px,transparent 1px),radial-gradient(circle at 80% 60%,rgba(255,182,193,.2) 2px,transparent 2px);background-size:80px 80px,60px 60px;pointer-events:none;z-index:0}
+.container{height:100dvh;max-width:420px;margin:0 auto;padding:10px 14px 6px;display:flex;flex-direction:column;gap:5px;overflow-y:auto;position:relative;z-index:1;-webkit-overflow-scrolling:touch}
+.header{flex-shrink:0;padding:4px 2px 0;position:relative}
+.header .pet-name{font-size:1rem;font-weight:700;color:#5b6e8a;letter-spacing:1px}
+.header .pet-name .heart{color:#f48fb1}
+.header .birthday-row{font-size:.68rem;color:#8a9bb5;margin-top:1px}
+.header .birthday-row span{background:rgba(255,255,255,.5);padding:1px 10px;border-radius:10px}
+.header .level-badge{position:absolute;top:4px;right:2px;display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);padding:2px 10px;border-radius:14px;font-size:.75rem;font-weight:600;color:#5b6e8a;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.header .level-badge .evo-badge{font-size:.6rem;background:#fce4ec;padding:0 5px;border-radius:6px;color:#e91e63;margin-left:2px}
+.pet-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;min-height:220px;flex-shrink:0}
+.pet-state-label{position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:.8rem;font-weight:600;padding:2px 14px;border-radius:10px;background:rgba(255,255,255,.6);backdrop-filter:blur(4px);white-space:nowrap;z-index:5;transition:all .5s ease}
+.floating-hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.floating-hearts .fh{position:absolute;font-size:.7rem;animation:floatUp 6s ease-in-out infinite;opacity:.4}
+@keyframes floatUp{0%{transform:translateY(20px) scale(.5);opacity:0}20%{opacity:.4}80%{opacity:.4}100%{transform:translateY(-60px) scale(1);opacity:0}}
+.dachshund-svg{width:230px;height:170px;cursor:pointer;transition:transform .3s ease;z-index:2;position:relative;margin-top:18px}
+.dachshund-svg:active{transform:scale(.94)}
+.dachshund-svg svg{width:100%;height:100%;overflow:visible}
+.dachshund-svg .body,.dachshund-svg .head{fill:#C68642;transition:fill .5s ease}
+.dachshund-svg .belly,.dachshund-svg .snout{fill:#D2A679}
+.dachshund-svg .ear{fill:#8B4513;transition:all .4s ease}
+.dachshund-svg .nose{fill:#3E2723}
+.dachshund-svg .eye-white{fill:white;transition:all .3s ease}
+.dachshund-svg .pupil{fill:#3E2723;transition:all .3s ease}
+.dachshund-svg .mouth{stroke:#3E2723;stroke-width:2;fill:none;stroke-linecap:round;transition:all .35s ease}
+.dachshund-svg .blush{fill:rgba(255,150,150,0.35);transition:all .4s ease}
+.dachshund-svg .tail{stroke:#B87333;stroke-width:5;fill:none;stroke-linecap:round;transition:all .5s ease}
+.dachshund-svg .highlight{fill:white}
+.dachshund-svg.state-happy .body,.dachshund-svg.state-happy .head{fill:#DEB887}
+.dachshund-svg.state-happy{animation:bounceHappy 2.2s ease-in-out infinite}
+.dachshund-svg.state-calm{animation:idleSway 4s ease-in-out infinite}
+.dachshund-svg.state-bored{animation:sleepyBob 3s ease-in-out infinite}
+.dachshund-svg.state-upset{animation:shake 1.5s ease-in-out infinite}
+@keyframes bounceHappy{0%,100%{transform:translateY(0)}25%{transform:translateY(-5px)}50%{transform:translateY(-2px)}75%{transform:translateY(-7px)}}
+@keyframes idleSway{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
+@keyframes sleepyBob{0%,100%{transform:translateY(0)}50%{transform:translateY(2px)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-3px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
+.dachshund-svg.walking{animation:none!important}
+.status-section{padding:2px 0;flex-shrink:0}
+.stat-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:.76rem;font-weight:500}
+.stat-icon{width:20px;text-align:center;font-size:.8rem;flex-shrink:0}
+.stat-label{width:34px;flex-shrink:0;font-size:.68rem;color:#7a8ba8;font-weight:600}
+.bar-track{flex:1;height:9px;background:rgba(0,0,0,.04);border-radius:8px;overflow:hidden;position:relative;box-shadow:inset 0 1px 3px rgba(0,0,0,.04)}
+.bar-fill{height:100%;border-radius:8px;transition:width .6s cubic-bezier(.34,1.56,.64,1);position:relative}
+.bar-fill::after{content:"";position:absolute;top:1.5px;left:3px;right:3px;height:2.5px;border-radius:3px;background:rgba(255,255,255,.35)}
+.stat-value{width:26px;text-align:right;font-size:.7rem;font-weight:600;color:#6d8aad;flex-shrink:0}
+.bar-hunger .bar-fill{background:linear-gradient(90deg,#ffab91,#ffcc80)}
+.bar-mood .bar-fill{background:linear-gradient(90deg,#f48fb1,#f8bbd0)}
+.bar-exp .bar-fill{background:linear-gradient(90deg,#b39ddb,#ce93d8)}
+.bar-track.warning .bar-fill{animation:pulseBar 1s ease-in-out infinite}
+@keyframes pulseBar{0%,100%{opacity:1}50%{opacity:.65}}
+.actions{display:flex;gap:10px;justify-content:center;padding:3px 0;flex-shrink:0}
+.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:76px;height:60px;border:none;border-radius:16px;font-size:.74rem;font-weight:600;color:white;cursor:pointer;transition:all .2s ease;box-shadow:0 4px 14px rgba(0,0,0,.08);position:relative;overflow:hidden;font-family:inherit}
+.action-btn .btn-icon{font-size:1.3rem;line-height:1}
+.action-btn:active{transform:scale(.9);box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.action-btn::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--rx,50%) var(--ry,50%),rgba(255,255,255,.35) 0%,transparent 70%);opacity:0;transition:opacity .2s}
+.action-btn:active::after{opacity:1}
+.btn-feed{background:linear-gradient(145deg,#ffab91,#ff8a65)}
+.btn-pet{background:linear-gradient(145deg,#f48fb1,#ec407a)}
+.btn-play{background:linear-gradient(145deg,#b39ddb,#7e57c2)}
+.action-btn:disabled{opacity:.45;transform:scale(.95);cursor:not-allowed}
+.action-btn .cooldown-overlay{position:absolute;bottom:0;left:0;right:0;height:0%;background:rgba(0,0,0,.15);border-radius:0 0 16px 16px;transition:height .1s linear}
+.message-area{flex-shrink:0;min-height:32px;display:flex;align-items:center;justify-content:center;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,.55);backdrop-filter:blur(8px);font-size:.78rem;text-align:center;transition:all .3s ease;border:1px solid rgba(255,255,255,.3)}
+.message-area.pop{animation:msgPop .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes msgPop{0%{transform:scale(.9);opacity:.5}100%{transform:scale(1);opacity:1}}
+.particle-container{position:fixed;inset:0;pointer-events:none;z-index:100;overflow:hidden}
+.particle{position:absolute;font-size:1rem;animation:particleFly 1.2s ease-out forwards;pointer-events:none}
+@keyframes particleFly{0%{opacity:1;transform:translateY(0) scale(.5) rotate(0deg)}100%{opacity:0;transform:translateY(-70px) scale(1.2) rotate(40deg)}}
+.game-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.35);backdrop-filter:blur(6px)}
+.game-overlay.show{display:flex}
+.game-panel{background:linear-gradient(160deg,#fff 0%,#f8f0ff 100%);border-radius:24px;padding:22px 18px 18px;width:88%;max-width:340px;box-shadow:0 16px 48px rgba(0,0,0,.15);position:relative;animation:panelIn .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes panelIn{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.game-panel .game-title{text-align:center;font-size:.95rem;font-weight:700;color:#5b6e8a;font-family:inherit}
+.game-panel .game-sub{text-align:center;font-size:.72rem;color:#8a9bb5;margin-bottom:10px}
+.game-panel .game-score{text-align:center;font-size:.82rem;color:#7e57c2;font-weight:600;margin-bottom:8px}
+.game-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;justify-items:center}
+.game-dot{width:50px;height:50px;border-radius:50%;border:none;font-size:1.3rem;cursor:pointer;transition:all .15s ease;background:#e8e0f0;color:transparent;box-shadow:inset 0 2px 6px rgba(0,0,0,.04);font-family:inherit}
+.game-dot.active{background:linear-gradient(145deg,#ff9a9e,#fad0c4);box-shadow:0 4px 14px rgba(255,154,158,.35);color:#fff;transform:scale(1.05);animation:dotPop .3s ease}
+@keyframes dotPop{0%{transform:scale(.8)}50%{transform:scale(1.1)}100%{transform:scale(1.05)}}
+.game-dot.caught{background:#c8e6c9;color:#66bb6a;font-size:1.1rem;transform:scale(.95)}
+.game-close{display:block;margin:0 auto;padding:7px 26px;border:none;border-radius:14px;background:linear-gradient(145deg,#b39ddb,#7e57c2);color:white;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.game-close:active{transform:scale(.93)}
+.game-result{text-align:center;padding:8px 0;font-size:.85rem;font-weight:600}
+.game-result.success{color:#66bb6a}.game-result.fail{color:#ef5350}
+.game-timer{position:absolute;top:10px;right:14px;font-size:.75rem;color:#8a9bb5;font-weight:600}
+.couple-section{flex-shrink:0;margin-top:1px}
+.couple-toggle{background:rgba(255,255,255,.6);backdrop-filter:blur(4px);border:none;border-radius:10px;padding:5px 12px;font-size:.74rem;color:#5b6e8a;cursor:pointer;width:100%;font-weight:600;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:space-between}
+.couple-toggle:active{transform:scale(.97)}
+.couple-toggle .arr{transition:transform .3s ease;display:inline-block}
+.couple-toggle.open .arr{transform:rotate(180deg)}
+.couple-panel{max-height:0;overflow:hidden;transition:max-height .4s ease;border-radius:0 0 12px 12px}
+.couple-panel.open{max-height:380px}
+.couple-inner{background:rgba(255,255,255,.5);backdrop-filter:blur(4px);padding:8px 12px;border-radius:0 0 12px 12px}
+.couple-inner textarea{width:100%;height:50px;border:1.5px solid rgba(180,180,210,.3);border-radius:10px;padding:6px 10px;font-size:.76rem;resize:none;background:rgba(255,255,255,.7);font-family:inherit;color:#4a5568;outline:none}
+.couple-inner textarea:focus{border-color:#b39ddb}
+.couple-inner .msg-actions{display:flex;gap:6px;margin-top:4px}
+.couple-inner .msg-actions button{padding:4px 14px;border:none;border-radius:8px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;flex:1}
+.btn-save-msg{background:linear-gradient(145deg,#b39ddb,#9575cd);color:white}
+.btn-clear-msg{background:rgba(0,0,0,.05);color:#7a8ba8}
+.msg-list{max-height:110px;overflow-y:auto;margin-top:5px;display:flex;flex-direction:column;gap:3px}
+.msg-list::-webkit-scrollbar{width:2px}.msg-list::-webkit-scrollbar-thumb{background:rgba(0,0,0,.08)}
+.msg-item{background:rgba(255,255,255,.6);border-radius:8px;padding:5px 8px;font-size:.72rem;color:#5b6e8a;display:flex;justify-content:space-between;align-items:center;gap:4px}
+.msg-item .msg-del{background:none;border:none;color:#e0a0a0;cursor:pointer;font-size:.65rem;padding:2px;flex-shrink:0;font-family:inherit}
+.msg-item .msg-time{font-size:.58rem;color:#b0c0d0;white-space:nowrap;flex-shrink:0}
+@media(max-width:380px){.container{padding:6px 10px 4px}.dachshund-svg{width:190px;height:140px}.action-btn{width:66px;height:54px}.pet-stage{min-height:190px}}
+@media(min-width:420px){.container{padding:14px 22px 10px}.dachshund-svg{width:260px;height:190px}}
+@supports(padding:env(safe-area-inset-top)){.container{padding-top:calc(10px + env(safe-area-inset-top));padding-bottom:calc(6px + env(safe-area-inset-bottom))}}
+/* 上传面板 */
+#uploadPanel input[type=file]::file-selector-button{padding:2px 6px;border:none;border-radius:6px;background:linear-gradient(145deg,#b39ddb,#7e57c2);color:white;font-size:.6rem;cursor:pointer;font-family:inherit}
+/* 火柴人走路摆腿 */
+.dachshund-svg.walking .legL{animation:swingLeg .3s ease-in-out infinite}
+.dachshund-svg.walking .legR{animation:swingLeg .3s ease-in-out infinite alternate}
+@keyframes swingLeg{0%{transform:rotate(-18deg);transform-origin:32px 55px}100%{transform:rotate(18deg);transform-origin:32px 55px}}
+
+/* 挥手 + 转圈 + 气泡 (分层肢体动画) */
+</style>
+</head>
+<body>
+<div id="uploadPanel" style="position:fixed;top:10px;left:10px;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-radius:12px;padding:6px 8px;box-shadow:0 2px 12px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:3px">
+    <div style="font-size:.6rem;color:#7a8ba8;font-weight:600">📷 换照片</div>
+    <input type="file" id="fileInput" accept="image/*" style="font-size:.6rem;max-width:80px">
+    <img id="previewImg" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid #e0e0e0;display:none">
+    <div style="display:flex;align-items:center;gap:4px;width:100%;margin-top:2px">
+      <span style="font-size:.5rem;color:#8a9bb5">🔍</span>
+      <input type="range" id="scaleSlider" min="0.3" max="2.5" step="0.1" value="1" style="flex:1;height:3px;accent-color:#b39ddb;cursor:pointer">
+    </div>
+  </div>
+  <div class="floating-hearts" id="floatingHearts"></div>
+<div class="container" id="app">
+  <header class="header">
+    <div class="pet-name"><span class="heart">💕</span> 包浆倪爱心小浣棕熊 <span class="heart">💕</span></div>
+    <div class="birthday-row"><span>🎂 出生日 2022.11.24</span></div>
+    <div class="level-badge"><span>⭐</span><span>Lv.<span id="levelDisplay">1</span></span><span class="evo-badge" id="evoBadge">🐣</span></div>
+  </header>
+  <section class="pet-stage" id="petStage">
+    <div class="pet-state-label" id="stateLabel">😊 开心</div>
+    <div class="dachshund-svg state-happy evo-baby" id="petCharacter">
+      <svg id="petSvg" viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg">
+        <ellipse class="shadow" cx="150" cy="158" rx="90" ry="7" fill="rgba(0,0,0,.06)"/>
+        <path class="tail" id="tail" d="M60,100 Q35,75 45,60"/>
+        <rect class="leg" x="65" y="125" width="14" height="26" rx="8" fill="#A0522D"/>
+        <rect class="leg" x="88" y="127" width="14" height="24" rx="8" fill="#B87333"/>
+        <rect class="leg" x="180" y="125" width="14" height="26" rx="8" fill="#A0522D"/>
+        <rect class="leg" x="205" y="127" width="14" height="24" rx="8" fill="#B87333"/>
+        <ellipse class="body" cx="145" cy="105" rx="80" ry="26"/>
+        <ellipse class="belly" cx="145" cy="113" rx="60" ry="14"/>
+        <ellipse class="head" cx="220" cy="85" rx="26" ry="24"/>
+        <path class="ear" id="earLeft" d="M202,70 Q193,52 197,47 Q206,57 208,70"/>
+        <path class="ear" id="earRight" d="M238,70 Q247,52 243,47 Q234,57 232,70"/>
+        <ellipse class="snout" cx="240" cy="90" rx="20" ry="12"/>
+        <ellipse class="nose" cx="255" cy="86" rx="5" ry="4"/>
+        <ellipse class="eye-white" id="eyeLeft" cx="210" cy="78" rx="6" ry="7"/>
+        <circle class="pupil" id="pupilLeft" cx="211" cy="78" r="3.5"/>
+        <circle class="highlight" cx="212" cy="76" r="1.3"/>
+        <ellipse class="eye-white" id="eyeRight" cx="230" cy="78" rx="6" ry="7"/>
+        <circle class="pupil" id="pupilRight" cx="231" cy="78" r="3.5"/>
+        <circle class="highlight" cx="232" cy="76" r="1.3"/>
+        <path class="mouth" id="mouth" d="M226,94 Q232,102 238,94"/>
+        <ellipse class="blush" id="blushLeft" cx="203" cy="88" rx="5" ry="3.5"/>
+        <ellipse class="blush" id="blushRight" cx="237" cy="88" rx="5" ry="3.5"/>
+        <text class="evo-crown" id="evoCrown" x="222" y="55" text-anchor="middle" font-size="0">👑</text>
+      </svg>
+    <div id="photoFig" style="display:none;position:absolute;inset:0;z-index:2">
+    <img id="petPhoto" style="width:58px;height:58px;object-fit:contain;position:absolute;top:2px;left:50%;margin-left:-29px;border-radius:50%;z-index:3">
+    <svg id="stickFig" style="position:absolute;top:56px;left:50%;margin-left:-32px;width:64px;height:100px;z-index:1" viewBox="0 0 64 110">
+      <line x1="32" y1="0" x2="32" y2="12" stroke="#666" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="32" y1="12" x2="32" y2="55" stroke="#666" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="8" y1="26" x2="56" y2="26" stroke="#666" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="8" y1="26" x2="4" y2="36" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+      <line x1="56" y1="26" x2="60" y2="36" stroke="#666" stroke-width="2" stroke-linecap="round"/>
+      <line class="legL" x1="32" y1="55" x2="14" y2="95" stroke="#666" stroke-width="3" stroke-linecap="round"/>
+      <line class="legR" x1="32" y1="55" x2="50" y2="95" stroke="#666" stroke-width="3" stroke-linecap="round"/>
+      
+    </svg>
+    
+    </div>
+  </section>
+  <section class="status-section">
+    <div class="stat-row"><span class="stat-icon">🍖</span><span class="stat-label">饱食</span>
+      <div class="bar-track bar-hunger" id="hungerTrack"><div class="bar-fill" id="hungerBar" style="width:100%"></div></div>
+      <span class="stat-value" id="hungerValue">100</span></div>
+    <div class="stat-row"><span class="stat-icon">❤️</span><span class="stat-label">心情</span>
+      <div class="bar-track bar-mood" id="moodTrack"><div class="bar-fill" id="moodBar" style="width:100%"></div></div>
+      <span class="stat-value" id="moodValue">100</span></div>
+    <div class="stat-row"><span class="stat-icon">⭐</span><span class="stat-label">经验</span>
+      <div class="bar-track bar-exp" id="expTrack"><div class="bar-fill" id="expBar" style="width:0%"></div></div>
+      <span class="stat-value" id="expValue">0/100</span></div>
+  </section>
+  <section class="actions">
+    <button class="action-btn btn-feed" id="btnFeed"><div class="cooldown-overlay" id="feedCooldown"></div><span class="btn-icon">🍎</span><span>喂食</span></button>
+    <button class="action-btn btn-pet" id="btnPet"><div class="cooldown-overlay" id="petCooldown"></div><span class="btn-icon">🤚</span><span>抚摸</span></button>
+    <button class="action-btn btn-play" id="btnPlay"><div class="cooldown-overlay" id="playCooldown"></div><span class="btn-icon">🎮</span><span>玩耍</span></button>
+  </section>
+  <div class="message-area" id="messageArea"><span class="msg-icon">💬</span><span id="messageText">💕 小浣熊在等你呢～</span></div>
+  <section class="couple-section">
+    <button class="couple-toggle" id="coupleToggle"><span>💌 情侣小窝 · 悄悄话</span><span class="arr">▼</span></button>
+    <div class="couple-panel" id="couplePanel">
+      <div class="couple-inner">
+        <label>📝 写悄悄话</label>
+        <textarea id="msgInput" placeholder="想对 TA 说什么悄悄话呢……"></textarea>
+        <div class="msg-actions">
+          <button class="btn-save-msg" id="btnSaveMsg">💾 保存</button>
+          <button class="btn-clear-msg" id="btnClearMsgs">🗑️ 清空</button>
+        </div>
+        <div class="msg-list" id="msgList"></div>
+      </div>
+    </div>
+  </section>
+  <section class="couple-section" style="margin-top:2px">
+    <button class="couple-toggle" id="wishToggle"><span>💝 情侣心愿清单</span><span class="arr">▼</span></button>
+    <div class="couple-panel" id="wishPanel">
+      <div class="couple-inner">
+        <div style="display:flex;gap:6px;margin-bottom:4px">
+          <input type="text" id="wishInput" placeholder="写一个新心愿..." maxlength="60" style="flex:1;padding:6px 10px;border:1.5px solid rgba(180,180,210,.3);border-radius:10px;font-size:.76rem;background:rgba(255,255,255,.7);font-family:inherit;color:#4a5568;outline:none">
+          <button id="wishAddBtn" style="padding:6px 14px;border:none;border-radius:10px;background:linear-gradient(145deg,#ff9a9e,#fad0c4);color:#5b6e8a;font-size:.72rem;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap">➕ 添加</button>
+        </div>
+        <div class="msg-list" id="wishList" style="max-height:150px"></div>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="particle-container" id="particleContainer"></div>
+<div class="toast-container" id="toastContainer"></div>
+<div class="game-overlay" id="gameOverlay">
+  <div class="game-panel">
+    <div class="game-timer" id="gameTimer">⏱ 15s</div>
+    <div class="game-title">🎯 接住爱心光点！</div>
+    <div class="game-sub">点击亮起的小爱心～</div>
+    <div class="game-score" id="gameScore">✅ 0 / 12</div>
+    <div class="game-grid" id="gameGrid">
+      <button class="game-dot" data-i="0"></button><button class="game-dot" data-i="1"></button><button class="game-dot" data-i="2"></button><button class="game-dot" data-i="3"></button>
+      <button class="game-dot" data-i="4"></button><button class="game-dot" data-i="5"></button><button class="game-dot" data-i="6"></button><button class="game-dot" data-i="7"></button>
+      <button class="game-dot" data-i="8"></button><button class="game-dot" data-i="9"></button><button class="game-dot" data-i="10"></button><button class="game-dot" data-i="11"></button>
+    </div>
+    <div class="game-result" id="gameResult"></div>
+    <button class="game-close" id="gameClose">关闭</button>
+  </div>
+</div>
+<script>﻿// ================================================================
+// 配置层 (Config)
+// ================================================================
+const CFG = {
+  decayIdleThreshold: 86400000, decayHungerPerTick: 1, decayMoodPerTick: 1,
+  levelDecayInterval: 720,
+  feedHungerGain: 30, feedMoodGain: 5, feedExpGain: 15,
+  petMoodGain: 20, petExpGain: 10,
+  playMoodGain: 10, playExpGain: 20,
+  gameTotalDots: 12, gameSuccessThreshold: 7, gameWinExp: 50, gameWinMood: 15,
+  gameLoseExp: 15, gameLoseMood: 5,
+  baseExpToLevel: 100, expGrowthFactor: 1.5,
+  cooldownFeed: 3000, cooldownPet: 2000, cooldownPlay: 100,
+  saveInterval: 10000, decayInterval: 5000,
+  idleActionMin: 15000, idleActionMax: 35000,
+  eventIntervalMin: 35000, eventIntervalMax: 60000,
+  minStat: 0, maxStat: 100, storageKey: "couple_pet_v4"
+};
+const MSG = {
+  states: { happy:["😊 今天心情超棒！","🥰 好开心呀～","😆 和你在一起最幸福了！"],
+    calm:["🙂 岁月静好～","😐 平平淡淡才是真","🌿 安静的午后～"],
+    bored:["😴 有点无聊呢……","🥱 好想找点事做……","💭 发发呆……"],
+    upset:["😣 肚子好饿……","🥺 想吃东西……","😢 有点难过……","😤 快来哄哄我！"] },
+  actions: { feed:["🍎 好吃！","🍚 吃饱饱啦！","🥗 美味！谢谢投喂～"],
+    pet:["🥰 被摸摸最幸福了～","😊 嘻嘻好舒服～","💕 再多摸摸我嘛～"],
+    play:["🎯 全力出击！","⚡ 接住了！","🌟 再来一局！"] },
+  levelUp:["🎉 升级啦！","🌟 又变强了！","✨ 等级提升！"],
+  evoChange:["🌟 小浣熊进化了！","✨ 外貌发生了变化！","🎊 成长了！"],
+  greetings:["💕 你回来啦！","🥰 欢迎回来！","😊 等你好久啦～","💖 小浣熊在等你～"],
+  idleActions:{ yawn:["🥱 打了个哈欠～","😴 有点困了……"],jump:["🎉 蹦蹦跳跳！","💃 好开心～"],blink:["👀 眨了眨大眼睛","😊 对你笑了一下～"] },
+  randomEvents:{ good:["🍬 捡到小糖果！饱食+8","🌸 窗外飘来小花，心情+8","🍀 发现四叶草！+5经验"],neutral:["💭 小浣熊想你了……","🌙 夜深了好安静","🎵 哼着小曲儿～"],minor:["🥺 有点孤单，摸摸我吧～","😐 坐在地上发呆……"] },
+  levelDown:["😰 太久没人理我了……等级降了……","😢 好孤单啊……等级下降了……"]
+};
+function rand(a){return a[Math.floor(Math.random()*a.length)];}
+// ================================================================
+// 数据层 (PetState)
+// ================================================================
+class PetState{
+  constructor(){this.hunger=100;this.mood=100;this.level=1;this.exp=0;this.messages=[];this.lastSaveTime=Date.now();this.lastLoginTime=Date.now();}
+  getExpToNext(){return Math.floor(CFG.baseExpToLevel*Math.pow(CFG.expGrowthFactor,this.level-1));}
+  getState(){
+    if(this.hunger<20&&this.mood<20)return"upset";
+    if(this.hunger<30)return"bored";
+    if(this.mood<25)return"upset";
+    if(this.hunger>60&&this.mood>60)return"happy";
+    return"calm";
+  }
+  isIdle(idle){return idle>60000&&this.getState()==="calm";}
+  getEvoForm(){if(this.level>=10)return"adult";if(this.level>=5)return"teen";return"baby";}
+  serialize(){return{hunger:this.hunger,mood:this.mood,level:this.level,exp:this.exp,messages:this.messages,lastSaveTime:this.lastSaveTime,lastLoginTime:this.lastLoginTime};}
+  static deserialize(d){
+    if(!d)return new PetState();var s=new PetState();
+    s.hunger=d.hunger??100;s.mood=d.mood??100;s.level=d.level??1;s.exp=d.exp??0;
+    s.messages=d.messages??[];s.lastSaveTime=d.lastSaveTime??Date.now();s.lastLoginTime=d.lastLoginTime??Date.now();
+    return s;
+  }
+}
+// ================================================================
+// 业务逻辑层 (PetGame)
+// ================================================================
+class PetGame{
+  constructor(state,cb){
+    this.state=state;this.cb=cb||{};this.cooldowns={feed:0,pet:0,play:0};
+    this.lastInteraction=Date.now();this._levelDecayCount=0;
+    this._computeOffline();
+    this._decayTimer=setInterval(()=>this._tick(),CFG.decayInterval);
+    this._saveTimer=setInterval(()=>this.save(),CFG.saveInterval);
+    this._scheduleIdle();this._scheduleEvent();
+    this._checkState();
+  }
+  _computeOffline(){
+    var now=Date.now(),el=now-this.state.lastLoginTime;
+    if(el>CFG.decayIdleThreshold){
+      var extra=Math.floor((el-CFG.decayIdleThreshold)/3600000);
+      if(extra>0){
+        this.state.hunger=Math.max(0,this.state.hunger-extra*2);
+        this.state.mood=Math.max(0,this.state.mood-extra*2);
+        if(this.state.hunger<=0&&this.state.mood<=0&&this.state.level>1){
+          this.state.level-=Math.min(Math.floor(extra/4),this.state.level-1);
+        }
+      }
+    }
+    this.state.lastLoginTime=now;
+  }
+  _tick(){
+    var idle=Date.now()-this.lastInteraction;
+    if(idle>CFG.decayIdleThreshold){
+      this.state.hunger=Math.max(0,this.state.hunger-1);
+      this.state.mood=Math.max(0,this.state.mood-1);
+      if(this.state.hunger<=0&&this.state.mood<=0&&this.state.level>1){
+        this._levelDecayCount++;
+        if(this._levelDecayCount>=720){this._levelDecayCount=0;this.state.level--;if(this.cb.onLevelDown)this.cb.onLevelDown(rand(MSG.levelDown));}
+      }
+    }
+    this._checkState();
+  }
+  _checkState(){
+    if(this.cb.onState)this.cb.onState(this.state.getState());
+    if(this.cb.onStat)this.cb.onStat(this.state);
+  }
+  feed(){
+    if(this.isCD("feed"))return false;
+    this._setCD("feed",3000);this._interact();
+    this.state.hunger=Math.min(100,this.state.hunger+30);this.state.mood=Math.min(100,this.state.mood+5);
+    this._addExp(15);this._checkState();
+    if(this.cb.onAction)this.cb.onAction("feed",rand(MSG.actions.feed),"");
+    return true;
+  }
+  pet(){
+    if(this.isCD("pet"))return false;
+    this._setCD("pet",2000);this._interact();
+    this.state.mood=Math.min(100,this.state.mood+20);
+    this._addExp(10);this._checkState();
+    if(this.cb.onAction)this.cb.onAction("pet",rand(MSG.actions.pet),"");
+    return true;
+  }
+  play(){
+    if(this.isCD("play"))return false;
+    this._setCD("play",100);this._interact();return true;
+  }
+  _interact(){this.lastInteraction=Date.now();this._levelDecayCount=0;if(this.cb.onInteract)this.cb.onInteract();}
+  _addExp(n){
+    this.state.exp+=n;var need=this.state.getExpToNext();
+    while(this.state.exp>=need){
+      this.state.exp-=need;this.state.level++;need=this.state.getExpToNext();
+      var evo=this.state.getEvoForm();
+      if(this.cb.onLevelUp)this.cb.onLevelUp(this.state.level,rand(MSG.levelUp));
+      if(this.cb.onEvoChange&&evo!==this._lastEvo){this._lastEvo=evo;this.cb.onEvoChange(evo);}
+    }
+    this._lastEvo=this.state.getEvoForm();
+  }
+  finishGame(caught){
+    var s=caught>=7;
+    if(s){this._addExp(50);this.state.mood=Math.min(100,this.state.mood+15);}
+    else{this._addExp(15);this.state.mood=Math.min(100,this.state.mood+5);}
+    this._checkState();return s;
+  }
+  _scheduleIdle(){
+    clearTimeout(this._idleTimer);
+    var d=15000+Math.random()*20000;
+    this._idleTimer=setTimeout(()=>{
+      if(Date.now()-this.lastInteraction>8000){
+        var act=["yawn","jump","blink"][Math.floor(Math.random()*3)];
+        if(this.cb.onIdle)this.cb.onIdle(act,rand(MSG.idleActions[act]));
+      }
+      this._scheduleIdle();
+    },d);
+  }
+  _scheduleEvent(){
+    clearTimeout(this._eventTimer);
+    var d=35000+Math.random()*25000;
+    this._eventTimer=setTimeout(()=>{this._triggerEvent();this._scheduleEvent();},d);
+  }
+  _triggerEvent(){
+    var r=Math.random();
+    if(r<0.3){
+      var sr=Math.random();
+      if(sr<0.5){this.state.hunger=Math.min(100,this.state.hunger+8);this._showEvent(rand(MSG.randomEvents.good),"good");}
+      else{this.state.mood=Math.min(100,this.state.mood+8);this._showEvent(rand(MSG.randomEvents.good),"good");}
+    }else if(r<0.6){this._showEvent(rand(MSG.randomEvents.neutral),"neutral");}
+    else{if(r<0.8)this.state.mood=Math.max(0,this.state.mood-3);this._showEvent(rand(MSG.randomEvents.minor),"minor");}
+    this._checkState();
+  }
+  _showEvent(t,type){if(this.cb.onEvent)this.cb.onEvent(t,type);}
+  _setCD(t,d){
+    this.cooldowns[t]=d;var start=Date.now();
+    var tick=()=>{var el=Date.now()-start,rem=Math.max(0,d-el);this.cooldowns[t]=rem;
+      if(this.cb.onCDTick)this.cb.onCDTick(t,rem/d);
+      if(rem>0)requestAnimationFrame(tick);else{this.cooldowns[t]=0;if(this.cb.onCDEnd)this.cb.onCDEnd(t);}};
+    requestAnimationFrame(tick);
+  }
+  isCD(t){return this.cooldowns[t]>0;}
+  addMessage(t){
+    if(!t.trim())return false;
+    this.state.messages.unshift({text:t.trim(),time:Date.now()});
+    if(this.state.messages.length>20)this.state.messages.pop();
+    this.save();if(this.cb.onMsgUpdate)this.cb.onMsgUpdate(this.state.messages);return true;
+  }
+  deleteMessage(idx){this.state.messages.splice(idx,1);this.save();if(this.cb.onMsgUpdate)this.cb.onMsgUpdate(this.state.messages);}
+  clearMessages(){this.state.messages=[];this.save();if(this.cb.onMsgUpdate)this.cb.onMsgUpdate(this.state.messages);}
+  save(){
+    this.state.lastSaveTime=Date.now();
+    try{localStorage.setItem(CFG.storageKey,JSON.stringify(this.state.serialize()));}catch(e){}
+  }
+  static load(){
+    try{var raw=localStorage.getItem(CFG.storageKey);if(raw)return PetState.deserialize(JSON.parse(raw));}catch(e){}
+    return new PetState();
+  }
+  destroy(){clearInterval(this._decayTimer);clearInterval(this._saveTimer);clearTimeout(this._idleTimer);clearTimeout(this._eventTimer);this.save();}
+}
+// ================================================================
+// 迷你游戏 (MiniGame)
+// ================================================================
+
+class UICtrl{
+  constructor(){
+    this.el={};
+    var ids=["petCharacter","stateLabel","levelDisplay","hungerBar","moodBar","expBar","hungerValue","moodValue","expValue","hungerTrack","moodTrack","messageArea","messageText","particleContainer","btnFeed","btnPet","btnPlay","feedCooldown","petCooldown","playCooldown","gameOverlay","gameGrid","gameScore","gameResult","gameClose","gameTimer","coupleToggle","couplePanel","msgInput","btnSaveMsg","btnClearMsgs","msgList","toastContainer","floatingHearts","evoBadge","wishToggle","wishPanel","wishInput","wishAddBtn","wishList"];
+    ids.forEach(function(id){this.el[id]=document.getElementById(id);}.bind(this));
+    this.buttons={feed:this.el.btnFeed,pet:this.el.btnPet,play:this.el.btnPlay};
+    this.cdOverlays={feed:this.el.feedCooldown,pet:this.el.petCooldown,play:this.el.playCooldown};
+    this._currentEvo="baby";this._fhTimer=null;
+  }
+  _el(id){var p=this.el.petCharacter;return p?p.querySelector("#"+id):null;}
+  updatePet(state){
+    var pc=this.el.petCharacter;if(!pc)return;
+    pc.className="dachshund-svg evo-"+this._currentEvo;pc.classList.add("state-"+state);
+    var lb={happy:"\u{1F60A} \u5F00\u5FC3",calm:"\u{1F642} \u5E73\u9759",bored:"\u{1F634} \u65E0\u804A",upset:"\u{1F623} \u59D4\u5C48"};
+    this.el.stateLabel.textContent=lb[state]||"\u{1F642} \u5E73\u9759";
+    var mouth=this._el("mouth"),eL=this._el("eyeLeft"),eR=this._el("eyeRight");
+    var pL=this._el("pupilLeft"),pR=this._el("pupilRight");
+    var bL=this._el("blushLeft"),bR=this._el("blushRight");
+    var tail=this._el("tail"),earL=this._el("earLeft"),earR=this._el("earRight");
+    if(!mouth)return;
+    function SP(el,x,y,r){if(el){el.setAttribute("cx",x);el.setAttribute("cy",y);el.setAttribute("r",r);}}
+    function SE(el,ry){if(el)el.setAttribute("ry",ry);}
+    function SB(el,op){if(el)el.setAttribute("fill","rgba(255,150,150,"+op+")");}
+    function SM(d){mouth.setAttribute("d",d);}
+    function SEA(el,d){if(el)el.setAttribute("d",d);}
+    switch(state){
+      case"happy":SM("M224,92 Q232,102 240,92");SE(eL,7);SE(eR,7);SP(pL,211,78,3.5);SP(pR,231,78,3.5);SB(bL,.35);SB(bR,.35);if(tail)tail.setAttribute("d","M60,100 Q35,70 45,55");SEA(earL,"M202,70 Q193,52 197,47 Q206,57 208,70");SEA(earR,"M238,70 Q247,52 243,47 Q234,57 232,70");break;
+      case"calm":SM("M228,94 Q232,100 236,94");SE(eL,6.5);SE(eR,6.5);SP(pL,211,78,3);SP(pR,231,78,3);SB(bL,.2);SB(bR,.2);if(tail)tail.setAttribute("d","M60,100 Q35,75 45,60");break;
+      case"bored":SM("M230,94 Q232,98 234,94");SE(eL,2.5);SE(eR,2.5);SP(pL,211,79,2);SP(pR,231,79,2);SB(bL,.1);SB(bR,.1);if(tail)tail.setAttribute("d","M60,100 Q40,90 50,85");SEA(earL,"M202,72 Q193,58 197,52 Q206,60 208,72");SEA(earR,"M238,72 Q247,58 243,52 Q234,60 232,72");break;
+      case"upset":SM("M230,98 Q232,92 238,98");SE(eL,4);SE(eR,4);SP(pL,210,78,3);SP(pR,230,78,3);SB(bL,.5);SB(bR,.5);if(tail)tail.setAttribute("d","M60,100 Q30,65 40,50");break;
+    }
+  }
+  updateEvo(evo){
+    this._currentEvo=evo;var pc=this.el.petCharacter;if(!pc)return;
+    pc.classList.remove("evo-baby","evo-teen","evo-adult");pc.classList.add("evo-"+evo);
+    var badges={baby:"\u{1F423}",teen:"\u{1F331}",adult:"\u{1F451}"};
+    this.el.evoBadge.textContent=badges[evo]||"\u{1F423}";var crown=this._el("evoCrown");
+    if(crown)crown.setAttribute("font-size",evo==="adult"?"18":"0");
+  }
+  updateStats(s){
+    this.el.hungerBar.style.width=Math.max(0,(s.hunger/100)*100)+"%";
+    this.el.moodBar.style.width=Math.max(0,(s.mood/100)*100)+"%";
+    this.el.expBar.style.width=Math.max(0,(s.exp/s.getExpToNext())*100)+"%";
+    this.el.hungerValue.textContent=Math.round(s.hunger);
+    this.el.moodValue.textContent=Math.round(s.mood);
+    this.el.expValue.textContent=Math.round(s.exp)+"/"+s.getExpToNext();
+    this.el.hungerTrack.classList.toggle("warning",s.hunger<25);
+    this.el.moodTrack.classList.toggle("warning",s.mood<25);
+    this.el.levelDisplay.textContent=s.level;
+  }
+  showMsg(t,e){
+    this.el.messageText.textContent=t;
+    if(e)this.el.messageArea.querySelector(".msg-icon").textContent=e;
+    this.el.messageArea.classList.remove("pop");void this.el.messageArea.offsetWidth;this.el.messageArea.classList.add("pop");
+  }
+  spawnParticles(chars,count){
+    var st=document.querySelector(".pet-stage");if(!st)return;
+    var r=st.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    for(var i=0;i<(count||6);i++){
+      var el=document.createElement("div");el.className="particle";
+      el.textContent=chars[Math.floor(Math.random()*chars.length)];
+      el.style.left=(cx+(Math.random()-.5)*100)+"px";el.style.top=(cy+(Math.random()-.5)*40)+"px";
+      el.style.fontSize=(1+Math.random()*.6)+"rem";el.style.animationDuration=(.9+Math.random()*.5)+"s";
+      el.style.animationDelay=(Math.random()*.15)+"s";
+      this.el.particleContainer.appendChild(el);setTimeout(function(){el.remove();},1500);
+    }
+  }
+  updateCD(t,pct){var o=this.cdOverlays[t];if(o)o.style.height=((1-pct)*100)+"%";}
+  setBtn(t,en){var b=this.buttons[t];if(b)b.disabled=!en;}
+  doIdleAction(type){
+    if(type==="blink"){
+      document.querySelectorAll(".eye-white").forEach(function(e){
+        e.style.transition="none";e.setAttribute("ry",1);
+        setTimeout(function(){e.style.transition="all .15s ease";e.setAttribute("ry",6.5);},150);
+      });
+    }else if(type==="yawn"){
+      var pc=this.el.petCharacter;if(pc){pc.classList.add("pet-yawn");setTimeout(function(){pc.classList.remove("pet-yawn");},900);}
+    }else if(type==="jump"){
+      var pc=this.el.petCharacter;if(pc){pc.classList.add("pet-jump");setTimeout(function(){pc.classList.remove("pet-jump");},700);}
+    }
+  }
+  showEventToast(t,type){
+    var el=document.createElement("div");el.className="toast "+type;el.textContent=t;
+    this.el.toastContainer.appendChild(el);
+    setTimeout(function(){el.style.opacity="0";el.style.transition="opacity .3s";setTimeout(function(){el.remove();},400);},3500);
+  }
+  startFloatingHearts(){
+    var c=this.el.floatingHearts;if(!c)return;
+    var self=this;
+    function create(){
+      var h=document.createElement("div");h.className="fh";
+      h.textContent=["\u{1F495}","\u{1F497}","\u{1F496}","\u{1F49B}","\u{1F338}","\u2728"][Math.floor(Math.random()*6)];
+      h.style.left=Math.random()*100+"%";h.style.animationDuration=(5+Math.random()*4)+"s";
+      h.style.animationDelay=Math.random()*2+"s";h.style.fontSize=(.6+Math.random()*.5)+"rem";
+      c.appendChild(h);setTimeout(function(){h.remove();},9000);
+    }
+    create();self._fhTimer=setInterval(function(){if(Math.random()>.3)create();},3000);
+  }
+  stopFloatingHearts(){clearInterval(this._fhTimer);}
+  renderMessages(msgs){
+    var list=this.el.msgList;list.innerHTML="";
+    if(!msgs||msgs.length===0){list.innerHTML="<div style=\"font-size:.68rem;color:#b0c0d0;text-align:center;padding:5px\">\u8FD8\u6CA1\u6709\u6084\u6084\u8BDD\uFF5E</div>";return;}
+    for(var i=0;i<msgs.length;i++){
+      var m=msgs[i],d=new Date(m.time),ts=(d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+      var div=document.createElement("div");div.className="msg-item";
+      div.innerHTML="<span>\u{1F4AC} "+this._esc(m.text)+"</span><span class=\"msg-time\">"+ts+"</span><button class=\"msg-del\" data-idx=\""+i+"\">\u2715</button>";
+      list.appendChild(div);
+    }
+    var self=this;
+    list.querySelectorAll(".msg-del").forEach(function(b){
+      b.addEventListener("click",function(e){var idx=parseInt(e.target.dataset.idx);if(self._onDelMsg)self._onDelMsg(idx);});
+    });
+  }
+  _esc(s){return String(s).replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+}
+class MiniGame{
+  constructor(ui,game,overlay){
+    this.ui=ui;this.game=game;this.overlay=overlay;
+    this.active=false;this.score=0;this.dotIdx=null;this.timer=null;this.timeLeft=15;
+    this.dots=[];this._spawnTimer=null;this._clickHandler=null;
+    for(var i=0;i<12;i++)this.dots.push({idx:i,caught:false});
+  }
+  start(){
+    if(this.active)return;
+    this.active=true;this.score=0;this.dotIdx=null;this.timeLeft=15;
+    this.dots.forEach(function(d){d.caught=false;});
+    this.overlay.classList.add("show");
+    this.ui.el.gameResult.textContent="";this.ui.el.gameResult.className="game-result";
+    this.ui.el.gameScore.textContent="✅ 0 / 12";
+    this.ui.el.gameTimer.textContent="⏱ 15s";
+    this.ui.el.gameGrid.querySelectorAll(".game-dot").forEach(function(d){d.className="game-dot";d.textContent="";});
+    var self=this;
+    this._clickHandler=function(e){var dot=e.target.closest(".game-dot");if(!dot||!self.active)return;self._clickDot(parseInt(dot.dataset.i));};
+    this.ui.el.gameGrid.addEventListener("click",this._clickHandler);
+    this._spawnNext();this._startTimer();
+  }
+  _spawnNext(){
+    var self=this;
+    if(!this.active)return;
+    var avail=this.dots.filter(function(d){return !d.caught&&d.idx!==self.dotIdx;});
+    if(avail.length===0){this._end();return;}
+    var pick=avail[Math.floor(Math.random()*avail.length)];
+    if(this.dotIdx!==null){
+      var prev=this.ui.el.gameGrid.querySelector("[data-i='"+this.dotIdx+"']");
+      if(prev&&!this.dots[this.dotIdx].caught)prev.className="game-dot miss";
+    }
+    this.dotIdx=pick.idx;
+    var el=this.ui.el.gameGrid.querySelector("[data-i='"+this.dotIdx+"']");
+    if(el){el.className="game-dot active";el.textContent="❤️";}
+    clearTimeout(this._spawnTimer);
+    this._spawnTimer=setTimeout(function(){
+      if(self.active&&self.dotIdx!==null&&!self.dots[self.dotIdx].caught){
+        self.dots[self.dotIdx].caught=true;
+        var el2=self.ui.el.gameGrid.querySelector("[data-i='"+self.dotIdx+"']");
+        if(el2)el2.className="game-dot miss";
+        self.dotIdx=null;self._spawnNext();
+      }
+    },1200);
+  }
+  _clickDot(i){
+    if(!this.active||i!==this.dotIdx||this.dots[i].caught)return;
+    this.dots[i].caught=true;this.score++;
+    var el=this.ui.el.gameGrid.querySelector("[data-i='"+i+"']");
+    if(el){el.className="game-dot caught";el.textContent="✅";}
+    this.dotIdx=null;
+    this.ui.el.gameScore.textContent="✅ "+this.score+" / 12";
+    clearTimeout(this._spawnTimer);this._spawnNext();
+  }
+  _startTimer(){
+    var self=this;
+    this.timeLeft=15;this.ui.el.gameTimer.textContent="⏱ 15s";
+    this.timer=setInterval(function(){self.timeLeft--;self.ui.el.gameTimer.textContent="⏱ "+self.timeLeft+"s";if(self.timeLeft<=0||self.score>=12)self._end();},1000);
+  }
+  _end(){
+    this.active=false;clearInterval(this.timer);clearTimeout(this._spawnTimer);
+    if(this._clickHandler){this.ui.el.gameGrid.removeEventListener("click",this._clickHandler);this._clickHandler=null;}
+    var caught=this.score,s=this.game.finishGame(caught);
+    var el=this.ui.el.gameResult;
+    el.className="game-result "+(s?"success":"fail");
+    if(s){el.textContent="🎉 太棒了！抓住 "+caught+" 个！+50EXP";this.ui.spawnParticles("🎉✨🌟💕💗",10);}
+    else{el.textContent="😢 抓住 "+caught+" 个！+15EXP";}
+    this.ui.el.gameScore.textContent="✅ "+caught+" / 12";
+    this.dotIdx=null;
+  }
+  close(){
+    this.active=false;clearInterval(this.timer);clearTimeout(this._spawnTimer);
+    if(this._clickHandler){this.ui.el.gameGrid.removeEventListener("click",this._clickHandler);this._clickHandler=null;}
+    this.overlay.classList.remove("show");
+  }
+}
+// ================================================================
+// 情侣心愿清单 (WishList)
+// ================================================================
+var WishList={
+  data:[],key:"couple_wish_v1",
+  init(ui){
+    this.ui=ui;
+    try{var r=localStorage.getItem(this.key);if(r)this.data=JSON.parse(r);}catch(e){}
+    this._render();
+  },
+  save(){try{localStorage.setItem(this.key,JSON.stringify(this.data));}catch(e){}},
+  _render(){
+    var list=document.getElementById("wishList");if(!list)return;list.innerHTML="";
+    if(this.data.length===0){list.innerHTML="<div style=\"font-size:.68rem;color:#b0c0d0;text-align:center;padding:8px\">还没有心愿，一起许个愿吧～</div>";return;}
+    for(var i=0;i<this.data.length;i++){
+      var item=this.data[i];
+      var div=document.createElement("div");div.className="msg-item";
+      var done=item.done?"✅":"⬜";
+      var doneCls=item.done?"style=\"text-decoration:line-through;color:#b0c0d0\"":"";
+      var btnDone=item.done?"":"<button class=\"wish-check\" data-idx=\""+i+"\" style=\"background:none;border:none;cursor:pointer;font-size:.7rem;padding:2px;flex-shrink:0\">✅ 完成</button>";
+      div.innerHTML="<span>"+done+"</span><span "+doneCls+">"+this._esc(item.text)+"</span>"+btnDone+"<button class=\"wish-del\" data-idx=\""+i+"\" style=\"background:none;border:none;color:#e0a0a0;cursor:pointer;font-size:.65rem;padding:2px;flex-shrink:0\">✕</button>";
+      list.appendChild(div);
+    }
+    var self=this;
+    list.querySelectorAll(".wish-check").forEach(function(b){b.addEventListener("click",function(e){self.check(parseInt(e.target.dataset.idx));});});
+    list.querySelectorAll(".wish-del").forEach(function(b){b.addEventListener("click",function(e){self.del(parseInt(e.target.dataset.idx));});});
+  },
+  check(idx){
+    if(idx<0||idx>=this.data.length)return;
+    this.data[idx].done=true;this.save();this._render();
+    if(this.ui&&this.ui.showMsg){
+      this.ui.showMsg("✨ 心愿达成！+20EXP ❤️+3","✨");
+      this.ui.spawnParticles("✨🌟💕💗",8);
+    }
+    if(window._petGame){window._petGame._addExp(20);window._petGame.state.mood=Math.min(100,window._petGame.state.mood+3);}
+  },
+  del(idx){if(idx<0||idx>=this.data.length)return;this.data.splice(idx,1);this.save();this._render();},
+  add(text){
+    if(!text.trim())return false;
+    this.data.push({text:text.trim(),done:false,time:Date.now()});
+    this.save();this._render();return true;
+  },
+  _esc(s){return String(s).replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+};
+// ================================================================
+// 主入口 (Main) - 包含行走、照片上传、缩放
+// ================================================================
+(function(){
+  var state=PetGame.load();
+  var ui=new UICtrl();
+  ui.showMsg(rand(MSG.greetings),"💕");
+  ui.updatePet(state.getState());
+  ui.updateStats(state);
+  ui.updateEvo(state.getEvoForm());
+  ui.renderMessages(state.messages);
+  var overlay=document.getElementById("gameOverlay");
+  var miniGame=new MiniGame(ui,null,overlay);
+  var game=new PetGame(state,{
+    onState:function(st){ui.updatePet(st);},
+    onStat:function(s){ui.updateStats(s);},
+    onAction:function(type,msg){
+      var ic={feed:"🍎",pet:"🤚",play:"🎮"};
+      ui.showMsg(msg,ic[type]||"💬");
+      if(type==="pet"){
+        document.querySelectorAll(".eye-white").forEach(function(e){
+          e.style.transition="none";e.setAttribute("ry",1);
+          setTimeout(function(){e.style.transition="all .15s ease";e.setAttribute("ry",6.5);},150);
+        });
+      }
+    },
+    onCD:function(t){ui.setBtn(t,false);},
+    onCDTick:function(t,pct){ui.updateCD(t,pct);},
+    onCDEnd:function(t){ui.setBtn(t,true);ui.updateCD(t,0);},
+    onLevelUp:function(l,msg){ui.updateLevel(l);ui.showMsg("🎉 "+msg+" 现在 Lv."+l+"！","🎉");ui.spawnParticles("🎉🌟✨⭐💫",12);var pc=ui.el.petCharacter;if(pc){pc.style.animation="bounceHappy .4s ease-in-out 4";setTimeout(function(){pc.style.animation="";},1700);}},
+    onEvoChange:function(evo){ui.updateEvo(evo);ui.showMsg("🌟 "+rand(MSG.evoChange),"🌟");ui.spawnParticles("🌟✨💫🌸💕",15);},
+    onLevelDown:function(msg){ui.showEventToast(msg,"minor");ui.updateStats(state);},
+    onIdle:function(type,msg){ui.doIdleAction(type);if(msg)ui.showMsg(msg,"💤");},
+    onEvent:function(t,type){ui.showEventToast(t,type);},
+    onInteract:function(){ui.updatePet(state.getState());},
+    onMsgUpdate:function(msgs){ui.renderMessages(msgs);}
+  });
+  miniGame.game=game;
+  window._petGame=game;
+  // 按钮事件
+  document.querySelectorAll(".action-btn").forEach(function(btn){
+    btn.addEventListener("click",function(e){
+      var r=this.getBoundingClientRect();
+      this.style.setProperty("--rx",((e.clientX-r.left)/r.width*100)+"%");
+      this.style.setProperty("--ry",((e.clientY-r.top)/r.height*100)+"%");
+    });
+  });
+  ui.el.btnFeed.addEventListener("click",function(){game.feed();});
+  ui.el.btnPet.addEventListener("click",function(){game.pet();});
+  ui.el.btnPlay.addEventListener("click",function(){miniGame.start();});
+  ui.el.gameClose.addEventListener("click",function(){miniGame.close();});
+  if(ui.el.petCharacter)ui.el.petCharacter.addEventListener("click",function(){game.pet();});
+  // 情侣小窝
+  ui.el.coupleToggle.addEventListener("click",function(){ui.el.couplePanel.classList.toggle("open");ui.el.coupleToggle.classList.toggle("open");});
+  ui.el.btnSaveMsg.addEventListener("click",function(){var t=ui.el.msgInput.value;if(game.addMessage(t)){ui.el.msgInput.value="";ui.showMsg("💌 悄悄话已保存！","💌");}});
+  ui.el.btnClearMsgs.addEventListener("click",function(){if(confirm("确定清空所有悄悄话吗？")){game.clearMessages();ui.showMsg("💭 悄悄话已清空","💭");}});
+  ui._onDelMsg=function(idx){game.deleteMessage(idx);};
+  // 心愿清单
+  WishList.init(ui);
+  ui.el.wishToggle.addEventListener("click",function(){ui.el.wishPanel.classList.toggle("open");ui.el.wishToggle.classList.toggle("open");});
+  ui.el.wishAddBtn.addEventListener("click",function(){var t=ui.el.wishInput.value;if(WishList.add(t)){ui.el.wishInput.value="";ui.showMsg("✨ 新心愿已添加！","✨");}});
+  ui.el.wishInput.addEventListener("keydown",function(e){if(e.key==="Enter")ui.el.wishAddBtn.click();});
+  // ===== 步进式行走系统 =====
+  var walkState={x:0,y:0,facing:"right",walkTimer:null,walking:false};
+  var pc=ui.el.petCharacter;
+  if(pc){
+    if(pc.dataset.petX)walkState.x=parseFloat(pc.dataset.petX);
+    if(pc.dataset.petY)walkState.y=parseFloat(pc.dataset.petY);
+    pc.style.left=walkState.x+"px";pc.style.top=walkState.y+"px";
+  }
+  function setFlip(flip){
+    window._lastFlip=flip;
+    var s=window._petScale||1;
+    if(window._usePhoto){
+      var fig=document.getElementById("photoFig");
+      if(fig)fig.style.transform="scale("+s+")"+(flip?" scaleX(-1)":"");
+    }else{
+      var sv=pc?pc.querySelector("svg"):null;
+      if(sv)sv.style.transform=flip?"scaleX(-1)":"";
+    }
+  }
+  document.querySelector(".pet-stage").addEventListener("click",function(e){
+    if(e.target.closest(".dachshund-svg")||!pc)return;
+    var rect=this.getBoundingClientRect();
+    var cx=rect.width/2,cy=rect.height/2-20;
+    var tx=e.clientX-rect.left-cx,ty=e.clientY-rect.top-cy;
+    tx=Math.max(-cx+70,Math.min(cx-70,tx));ty=Math.max(-cy+70,Math.min(cy-70,ty));
+    if(walkState.walkTimer){cancelAnimationFrame(walkState.walkTimer);walkState.walkTimer=null;}
+    var dx=tx-walkState.x,dy=ty-walkState.y;
+    var dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<30)return;
+    if(dx<0){setFlip(true);walkState.facing="left";}
+    else{setFlip(false);walkState.facing="right";}
+    pc.classList.add("walking");
+    walkState.walking=true;walkState.startX=walkState.x;walkState.startY=walkState.y;
+    walkState.targetX=tx;walkState.targetY=ty;walkState.startTime=0;
+    var duration=Math.max(400,dist*10);
+    requestAnimationFrame(function step(ts){
+      if(!walkState.startTime)walkState.startTime=ts;
+      var el=ts-walkState.startTime,t=Math.min(el/duration,1);
+      var e=1-Math.pow(1-t,3);
+      var nx=walkState.startX+(walkState.targetX-walkState.startX)*e;
+      var ny=walkState.startY+(walkState.targetY-walkState.startY)*e;
+      var bob=Math.abs(Math.sin(t*Math.PI*5))*2.5;
+      pc.style.left=nx+"px";pc.style.top=(ny-bob)+"px";
+      var sf=document.getElementById("stickFig");
+      if(sf&&sf.style.display!=="none"){
+        var sw=Math.sin(t*Math.PI*4)*20;
+        sf.querySelector(".legL").setAttribute("x2",32+sw);
+        sf.querySelector(".legR").setAttribute("x2",32-sw);
+      }
+      if(t<1){walkState.walkTimer=requestAnimationFrame(step);}
+      else{
+        walkState.x=walkState.targetX;walkState.y=walkState.targetY;
+        pc.style.left=walkState.x+"px";pc.style.top=walkState.y+"px";
+        pc.dataset.petX=walkState.x;pc.dataset.petY=walkState.y;
+        pc.classList.remove("walking");walkState.walking=false;walkState.walkTimer=null;
+        if(sf&&sf.style.display!=="none"){
+          sf.querySelector(".legL").setAttribute("x2",32);
+          sf.querySelector(".legR").setAttribute("x2",32);
+        }
+      }
+    });
+  });
+  // 闲置自动转头
+  (function scheduleTurn(){
+    setTimeout(function(){
+      if(walkState.walking||!pc){scheduleTurn();return;}
+      var lookAway=walkState.facing==="right";
+      setFlip(lookAway);
+      setTimeout(function(){setFlip(walkState.facing==="left");scheduleTurn();},1800+Math.random()*2200);
+    },5000+Math.random()*5000);
+  })();
+  // ===== 照片上传 =====
+  document.getElementById("fileInput").onchange=function(e){
+    var file=e.target.files[0];if(!file)return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var url=ev.target.result;
+      localStorage.setItem("pet_photo_data",url);
+      document.getElementById("previewImg").src=url;
+      document.getElementById("previewImg").style.display="block";
+      document.getElementById("petPhoto").src=url;
+      document.getElementById("photoFig").style.display="block";
+      document.getElementById("petSvg").style.display="none";
+      window._usePhoto=true;
+      window._petScale=parseFloat(document.getElementById("scaleSlider").value)||1;
+    };
+    reader.readAsDataURL(file);
+  };
+  // ===== 恢复上次照片 =====
+  (function(){
+    var saved=localStorage.getItem("pet_photo_data");
+    if(!saved)return;
+    document.getElementById("petPhoto").src=saved;
+    document.getElementById("photoFig").style.display="block";
+    document.getElementById("petSvg").style.display="none";
+    document.getElementById("previewImg").src=saved;
+    document.getElementById("previewImg").style.display="block";
+    window._usePhoto=true;
+    var ss=localStorage.getItem("pet_photo_scale");
+    if(ss){window._petScale=parseFloat(ss);document.getElementById("scaleSlider").value=ss;}
+    setFlip(window._lastFlip);
+  })();
+  // ===== 缩放滑块 =====
+  window._petScale=1;
+  document.getElementById("scaleSlider").addEventListener("input",function(){
+    window._petScale=Number(this.value);
+    localStorage.setItem("pet_photo_scale",this.value);
+    if(window._usePhoto)setFlip(window._lastFlip);
+  });
+  // ===== 昼夜切换 =====
+  var hr=new Date().getHours();
+  if(hr>=18||hr<6)document.body.classList.add("night");
+  setInterval(function(){var h2=new Date().getHours();document.body.classList.toggle("night",h2>=18||h2<6);},60000);
+  // ===== 闲置犯困检测 =====
+  setInterval(function(){try{var idle=Date.now()-game.lastInteraction;var st=state.getState();if(state.isIdle(idle)&&st==="calm")ui.updatePet("bored");}catch(e){}},8000);
+  // ===== 启动 =====
+  ui.startFloatingHearts();
+  window.addEventListener("beforeunload",function(){game.destroy();});
+  document.addEventListener("visibilitychange",function(){if(document.hidden)game.save();});
+  console.log("💕 包浆倪爱心小浣棕熊 v4 启动！Lv."+state.level);
+})();
+</script>
+</body>
+</html>
